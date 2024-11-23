@@ -1,9 +1,16 @@
+# python相關
 __pycache__/
-wsj0_by_person/
-wandb/
-exp/
-venv/
 
-*.log
+# 模型資料
+wsj0_by_person/
+exp/
+paraformer_onnx/
 *.mp3
 *.wav
+
+# 虛擬環境
+venv/
+
+# W&B
+*.log
+wandb/

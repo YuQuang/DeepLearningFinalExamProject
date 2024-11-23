@@ -1,6 +1,6 @@
 import torch
 import torchaudio
-from funasr import AutoModel
+from funasr_onnx import Paraformer
 
 from models.conv_tasnet import ConvTasNet
 
@@ -26,19 +26,13 @@ sep_model.eval()
 """
 Load Paraformer Model for ASR
 """
-asr_model = AutoModel(
-    model="funasr/paraformer-zh",
-    model_revision="v2.0.4",
-    hub="hf",
-    disable_update=True
-)
+asr_model = Paraformer("./paraformer_onnx", batch_size=1, quantize=True)
 
 """
-Load mixed sound
+Load mixed sound & Separate it
 """
 mix_sound, _ = torchaudio.load("./mixed_sound.wav")
 y = sep_model(mix_sound.unsqueeze(0))
-print(y.shape)
 torchaudio.save(
     f"./seperation1.wav",
     y[0][0].unsqueeze(0).cpu().detach(),
@@ -51,9 +45,7 @@ torchaudio.save(
 )
 
 """
-
+Load Separate audio & Convert it to text
 """
-output = asr_model.generate("seperation1.wav")
-print(output)
-output = asr_model.generate("seperation2.wav")
-print(output)
+print(asr_model("seperation1.wav"))
+print(asr_model("seperation2.wav"))
