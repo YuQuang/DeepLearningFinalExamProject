@@ -1,0 +1,9 @@
+__pycache__/
+wsj0_by_person/
+wandb/
+exp/
+venv/
+
+*.log
+*.mp3
+*.wav
